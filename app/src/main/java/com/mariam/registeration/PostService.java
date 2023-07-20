@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.mariam.registeration.screens.profile.ProfileSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +94,18 @@ public class PostService extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        // Handle item click event
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Services service = itemList.get(position);
+                if (service != null) {
+                    String selectedTitle = service.getTitle();
+                    moveToNextActivity(selectedTitle);
+                }
+            }
+        });
+
         backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,11 +114,40 @@ public class PostService extends AppCompatActivity {
                 goback();
             }
         });
+
+        ImageView icon1 = findViewById(R.id.icon1);
+        ImageView icon3 = findViewById(R.id.icon3);
+
+
+        icon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle icon1 click here
+                Intent intent = new Intent(PostService.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle icon1 click here
+                Intent intent = new Intent(PostService.this, ProfileSettings.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void moveToNextActivity(String selectedTitle) {
+        // Start a new activity or perform any other action you desire
+        Intent intent = new Intent(PostService.this, CreatePost.class);
+        intent.putExtra("title", selectedTitle);
+        startActivity(intent);
     }
 
     private void goback() {
         // Start a new activity or perform any other action you desire
-        Intent intent = new Intent(PostService.this, MainActivity.class);
+        Intent intent = new Intent(PostService.this, MyRequests.class);
         startActivity(intent);
     }
 

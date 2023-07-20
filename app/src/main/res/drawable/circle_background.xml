@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent" /> <!-- Set the desired background color -->
+            <stroke
+                android:color="@android:color/black"
+            android:width="2dp" /> <!-- Set the desired stroke width -->
+        </shape>
+    </item>
+</layer-list>

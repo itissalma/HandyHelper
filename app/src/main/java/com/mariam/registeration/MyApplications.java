@@ -2,7 +2,9 @@ package com.mariam.registeration;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,41 +17,74 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.google.android.material.tabs.TabLayout;
+import com.mariam.registeration.screens.profile.ProfileSettings;
+import com.mariam.registeration.services.HandyAPI;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyApplications extends AppCompatActivity {
     private TabLayout tabLayout;
     private ListView listView;
+    private AppAdapter adapter;
+    private String userId = "11111111111111"; // Replace with the actual user ID
+    private HandyAPI my_api = new HandyAPI();
+
 
     // App class declaration
     public class App {
-        private String name;
-        private String category;
+        private String title;
+        private String content;
         private int iconResId;
-        private int Rejected;
+        private int rejectedIconResId;
+        private String date;
+        private int numOfApplications;
+        private int price;
 
-        public App(String name, String category, int iconResId, int Rejected) {
-            this.name = name;
-            this.category = category;
+        public App(String title, String content, int iconResId, int rejectedIconResId, String date, int numOfApplications, int price) {
+            this.title = title;
+            this.content = content;
             this.iconResId = iconResId;
-            this.Rejected = Rejected;
+            this.rejectedIconResId = rejectedIconResId;
+            this.date = date;
+            this.numOfApplications = numOfApplications;
+            this.price = price;
         }
 
-        public String getName() {
-            return name;
+        public String getTitle() {
+            return title;
         }
 
-        public String getCategory() {
-            return category;
+        public String getContent() {
+            return content;
         }
 
         public int getIconResId() {
             return iconResId;
         }
-        public int getRejected() {
-            return Rejected;
+
+        public int getRejectedIconResId() {
+            return rejectedIconResId;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public int getNumOfApplications() {
+            return numOfApplications;
+        }
+
+        public int getPrice() {
+            return price;
         }
     }
 
@@ -68,7 +103,7 @@ public class MyApplications extends AppCompatActivity {
 
                 if (position == 0) {
                     // My Requests tab selected
-                    Intent intent = new Intent(MyApplications.this, MainActivity.class);
+                    Intent intent = new Intent(MyApplications.this, MyRequests.class);
 
                     // Apply custom transition animations
                     ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(MyApplications.this,
@@ -93,63 +128,176 @@ public class MyApplications extends AppCompatActivity {
             myApplicationsTab.select();
         }
 
-        // Create a sample list of apps (replace with your actual data)
-        List<App> appsList = new ArrayList<>();
-        appsList.add(new App("Pet Care", "Walk my dog for 20 mins", R.drawable.person, R.drawable.rejected));
-        appsList.add(new App("Installation", "Change 4 lightbulbs", R.drawable.person, R.drawable.pending));
-        appsList.add(new App("Installation", "Mow my Lawn", R.drawable.person, R.drawable.accepted));
-
         // Initialize the ListView
         listView = findViewById(R.id.listView);
 
         // Create and set the adapter
-        ArrayAdapter<App> adapter = new ArrayAdapter<App>(this, R.layout.apps_list_item, R.id.title, appsList) {
+        adapter = new AppAdapter(this, new ArrayList<>());
+        listView.setAdapter(adapter);
+
+        // Retrieve the applied posts
+        RetrieveAppliedPostsTask task = new RetrieveAppliedPostsTask();
+        task.execute();
+
+        ImageView icon1 = findViewById(R.id.icon1);
+        ImageView icon3 = findViewById(R.id.icon3);
+
+
+        icon1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                ViewHolder viewHolder;
+            public void onClick(View v) {
+                // Handle icon1 click here
+                Intent intent = new Intent(MyApplications.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
 
-                if (convertView == null) {
-                    viewHolder = new ViewHolder();
-                    viewHolder.iconImageView = view.findViewById(R.id.userImage);
-                    viewHolder.nameTextView = view.findViewById(R.id.title);
-                    viewHolder.categoryTextView = view.findViewById(R.id.desc);
-                    viewHolder.rejectedIconImageView = view.findViewById(R.id.rejectedIcon);
-                    view.setTag(viewHolder);
-                } else {
-                    viewHolder = (ViewHolder) view.getTag();
-                }
+        icon3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle icon1 click here
+                Intent intent = new Intent(MyApplications.this, ProfileSettings.class);
+                startActivity(intent);
+            }
+        });
+    }
 
-                App app = getItem(position);
+    private class AppAdapter extends ArrayAdapter<App> {
+        private LayoutInflater inflater;
 
-                if (app != null) {
-                    viewHolder.iconImageView.setImageResource(app.getIconResId());
-                    viewHolder.nameTextView.setText(app.getName());
-                    viewHolder.categoryTextView.setText(app.getCategory());
-                    viewHolder.rejectedIconImageView.setImageResource(app.getRejected());
+        public AppAdapter(Context context, List<App> apps) {
+            super(context, 0, apps);
+            inflater = LayoutInflater.from(context);
+        }
 
-                    // Set rejectedIcon visibility based on the value of Rejected
-                    if (app.getRejected() == R.drawable.rejected) {
-                        viewHolder.rejectedIconImageView.setVisibility(View.VISIBLE);
-                    } else {
-                        viewHolder.rejectedIconImageView.setVisibility(View.VISIBLE);
-                    }
-                }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            ViewHolder viewHolder;
 
-                return view;
+            if (view == null) {
+                view = inflater.inflate(R.layout.apps_list_item, parent, false);
+                viewHolder = new ViewHolder();
+                viewHolder.iconImageView = view.findViewById(R.id.userImage);
+                viewHolder.titleTextView = view.findViewById(R.id.title);
+                viewHolder.descTextView = view.findViewById(R.id.desc);
+                viewHolder.dateTextView = view.findViewById(R.id.date);
+                viewHolder.numOfApplicationsTextView = view.findViewById(R.id.numofapplications);
+                viewHolder.priceTextView = view.findViewById(R.id.price);
+                viewHolder.rejectedIconImageView = view.findViewById(R.id.rejectedIcon);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
             }
 
-        };
+            App app = getItem(position);
 
-        listView.setAdapter(adapter);
+            if (app != null) {
+                viewHolder.iconImageView.setImageResource(app.getIconResId());
+                viewHolder.titleTextView.setText(app.getTitle());
+                viewHolder.descTextView.setText(app.getContent());
+                viewHolder.dateTextView.setText(app.getDate());
+                viewHolder.numOfApplicationsTextView.setText(String.valueOf(app.getNumOfApplications()) +" Apps");
+                viewHolder.priceTextView.setText(String.valueOf(app.getPrice()) +" EGP");
+
+
+                // Set rejectedIcon visibility based on the rejectedIconResId
+                if (app.getRejectedIconResId() != 0) {
+                    viewHolder.rejectedIconImageView.setVisibility(View.VISIBLE);
+                    viewHolder.rejectedIconImageView.setImageResource(app.getRejectedIconResId());
+                } else {
+                    viewHolder.rejectedIconImageView.setVisibility(View.GONE);
+                }
+            }
+
+            return view;
+        }
+
+        private class ViewHolder {
+            ImageView iconImageView;
+            TextView titleTextView;
+            TextView descTextView;
+            TextView dateTextView;
+            TextView numOfApplicationsTextView;
+            TextView priceTextView;
+            ImageView rejectedIconImageView;
+        }
     }
 
-    private static class ViewHolder {
-        ImageView iconImageView;
-        TextView nameTextView;
-        TextView categoryTextView;
-        ImageView rejectedIconImageView;
+    private class RetrieveAppliedPostsTask extends AsyncTask<Void, Void, String> {
+        HandyAPI API = new HandyAPI();
+        @Override
+        protected String doInBackground(Void... voids) {
+            String result = "";
+
+            try {
+                URL url = new URL("http://"+ my_api.API_LINK+ "/appliedPosts/" + userId);
+                //URL url = new URL("http://10.40.39.215/appliedPosts/" + userId);
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                Log.e("TAG", "the url is" +url);
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line);
+                    }
+                    reader.close();
+                    result = stringBuilder.toString();
+                } else {
+                    result = "HTTP response code: " + responseCode;
+                }
+
+                connection.disconnect();
+            } catch (Exception e) {
+                Log.e("TAG", "Error retrieving applied posts", e);
+                result = e.getMessage();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            // Process the retrieved data and update the adapter
+            try {
+                JSONArray postsArray = new JSONArray(result);
+                List<App> appsList = new ArrayList<>();
+
+                for (int i = 0; i < postsArray.length(); i++) {
+                    JSONObject postObject = postsArray.getJSONObject(i);
+                    String title = postObject.getString("title");
+                    String content = postObject.getString("content");
+                    String acceptedStatus = postObject.getString("accepted_status");
+                    String rawServiceDate = postObject.getString("service_date");
+                    String date = rawServiceDate.split("T")[0];
+                    int numOfApplications = postObject.getInt("num_applications");
+                    int price = postObject.getInt("initial_price");
+                    Log.e("TAG", "The json is "+ postObject);
+
+                    // Determine the rejectedIconResId based on the acceptedStatus
+                    int rejectedIconResId = 0;
+                    if (acceptedStatus.equals("R")) {
+                        rejectedIconResId = R.drawable.rejected;
+                    } else if (acceptedStatus.equals("P")) {
+                        rejectedIconResId = R.drawable.pending;
+                    } else if (acceptedStatus.equals("A")) {
+                        rejectedIconResId = R.drawable.accepted;
+                    }
+
+                    // Create a new App object and add it to the list
+                    appsList.add(new App(title, content, R.drawable.person, rejectedIconResId, date, numOfApplications, price));
+                }
+
+                // Clear the adapter and add the retrieved apps to it
+                adapter.clear();
+                adapter.addAll(appsList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
-
-

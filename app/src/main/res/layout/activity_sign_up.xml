@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="#2D4059"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/background_view"
+    >
 
     <ImageView
         android:id="@+id/signup_img"
@@ -28,21 +30,27 @@
             android:id="@+id/editTextUsername"
             android:layout_width="326dp"
             android:layout_height="54dp"
-            android:ems="10"
-            android:textSize="15sp"
-            android:hint="   Username"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="17dp"
+            android:layout_marginBottom="15dp"
             android:background="@drawable/rounded_edittext_bg"
-            android:layout_gravity="center_horizontal" />
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColor="#252424"
+            android:textColorHint="#8C8B8B"
+            android:textSize="15sp" />
         <EditText
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="326dp"
             android:layout_height="54dp"
             android:ems="10"
             android:textSize="15sp"
-            android:hint="   Enter your email"
+            android:padding="10dp"
+            android:hint="Enter your email"
+            android:textColorHint="#8C8B8B"
+            android:textColor="#252424"
             android:inputType="textEmailAddress"
             android:layout_marginBottom="15dp"
             android:background="@drawable/rounded_edittext_bg"
@@ -55,7 +63,10 @@
             android:background="@drawable/rounded_edittext_bg"
             android:ems="10"
             android:textSize="15sp"
-            android:hint="   Enter your password"
+            android:padding="10dp"
+            android:textColorHint="#8C8B8B"
+            android:hint="Enter your password"
+            android:textColor="#252424"
             android:layout_marginBottom="15dp"
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"/>
@@ -68,8 +79,11 @@
             android:background="@drawable/rounded_edittext_bg"
             android:ems="10"
             android:textSize="15sp"
-            android:hint="   Confirm password"
+            android:padding="10dp"
+            android:hint="Confirm password"
+            android:textColor="#252424"
             android:layout_marginBottom="15dp"
+            android:textColorHint="#8C8B8B"
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"/>
         <LinearLayout
@@ -79,24 +93,46 @@
             android:gravity="center_horizontal"
             android:layout_marginBottom="15dp">
             <AutoCompleteTextView
-                android:id="@+id/gender"
+                android:id="@+id/gender_dropdown"
                 android:layout_width="153dp"
                 android:layout_height="54dp"
                 android:background="@drawable/rounded_edittext_bg"
-                android:ems="10"
+                android:hint="Gender"
+                android:textColor="#252424"
+                android:padding="10dp"
+                android:inputType="none"
                 android:textSize="15sp"
-                android:hint="   Gender" />
-
+                android:textColorHint="#8C8B8B"
+                android:focusable="false" />
             <EditText
                 android:id="@+id/editTextDate"
                 android:layout_width="153dp"
                 android:layout_height="54dp"
+                android:inputType="none"
+                android:onClick="showDatePickerDialog"
+                android:focusable="false"
+                android:cursorVisible="false"
                 android:background="@drawable/rounded_edittext_bg"
-                android:ems="10"
-                android:textSize="15sp"
-                android:hint="   Birth"
+                android:textColor="#252424"
                 android:layout_marginLeft="20dp"
-                android:inputType="date" />
+                android:padding="10dp"
+                android:textSize="15sp"
+                android:textColorHint="#8C8B8B"
+                android:hint="Date of birth" />
+
+<!--            <EditText-->
+<!--                android:id="@+id/birthdate_edittext"-->
+<!--                android:layout_width="153dp"-->
+<!--                android:layout_height="54dp"-->
+<!--                android:background="@drawable/rounded_edittext_bg"-->
+<!--                android:hint="DD/MM/YYYY"-->
+<!--                android:textColor="#252424"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:padding="10dp"-->
+<!--                android:textSize="15sp"-->
+<!--                android:textColorHint="#8C8B8B"-->
+<!--                android:inputType="number" />-->
+
         </LinearLayout>
 
         <EditText
@@ -106,8 +142,11 @@
             android:background="@drawable/rounded_edittext_bg"
             android:ems="10"
             android:textSize="15sp"
-            android:hint="   National ID"
+            android:hint="National ID"
+            android:padding="10dp"
+            android:textColor="#252424"
             android:layout_marginBottom="10dp"
+            android:textColorHint="#8C8B8B"
             android:inputType="number"
             android:layout_gravity="center_horizontal"/>
         <Button
@@ -117,15 +156,16 @@
             android:layout_gravity="center"
             android:backgroundTint="#F9AC0C"
             android:text="Register"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:background="@drawable/button_style_1_selected"
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.3"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="6dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -149,7 +189,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
 
 
 </LinearLayout>

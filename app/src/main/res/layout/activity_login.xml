@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/background_view"
     android:background="#2D4059"
     android:orientation="vertical"
     tools:context=".MainActivity">
@@ -38,14 +39,17 @@
             android:id="@+id/editTextTextEmailAddress"
             android:layout_width="326dp"
             android:layout_height="54dp"
-            android:ems="10"
-            android:textSize="15sp"
-            android:hint="   Enter your email"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="30dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/rounded_edittext_bg"
-            android:layout_gravity="center_horizontal"/>
+            android:ems="10"
+            android:hint="Enter your email"
+            android:textColor="#252424"
+            android:inputType="textEmailAddress"
+            android:padding="10dp"
+            android:textColorHint="#8C8B8B"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -54,7 +58,10 @@
             android:background="@drawable/rounded_edittext_bg"
             android:ems="10"
             android:textSize="15sp"
-            android:hint="   Enter your password"
+            android:hint="Enter your password"
+            android:textColor="#252424"
+            android:textColorHint="#8C8B8B"
+            android:padding="10dp"
             android:layout_marginBottom="10dp"
             android:inputType="textPassword"
             android:layout_gravity="center_horizontal"/>
@@ -70,7 +77,17 @@
             android:textSize="13sp"
             android:layout_marginBottom="30dp"/>
 
-
+        <TextView
+            android:id="@+id/error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="Incorrect email or password. Please try again."
+            android:textAlignment="center"
+            android:background="@color/white"
+            android:textColor="#F34E4E"
+            android:textSize="13sp"
+            android:layout_marginBottom="5dp"/>
         <Button
             android:id="@+id/Login"
             android:layout_width="210dp"
@@ -79,6 +96,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="#F9AC0C"
             android:text="Login"
+            android:background="@drawable/button_style_1_selected"
             android:textSize="25sp"
             android:textStyle="bold" />
 

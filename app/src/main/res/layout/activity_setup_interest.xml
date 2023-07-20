@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".verify_phone"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/darkBlue"
+        android:text="Set up your profile"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Interests"
+            android:textColor="@color/darkBlue"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="35dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please specify categories you are interested in.
+                            You can choose more than one."
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="35dp"
+            android:layout_marginLeft="35dp"/>
+
+
+        <ToggleButton
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/toggle_interest"
+            android:padding="10dp"
+            android:textOff="PetCare"
+            android:textOn="PetCare"
+            android:text="Petcare"
+            android:textAllCaps="false"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <ToggleButton
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/toggle_interest"
+            android:padding="10dp"
+            android:textOff="Installation"
+            android:textOn="Installation"
+            android:text="Installation"
+            android:textAllCaps="false"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <ToggleButton
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/toggle_interest"
+            android:padding="10dp"
+            android:textOff="Gardening"
+            android:textOn="Gardening"
+            android:text="Gardening"
+            android:textAllCaps="false"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <ToggleButton
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/toggle_interest"
+            android:padding="10dp"
+            android:textOff="Transportation"
+            android:textOn="Transportation"
+            android:text="Transportation"
+            android:textAllCaps="false"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <ToggleButton
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:background="@drawable/toggle_interest"
+            android:padding="10dp"
+            android:textOff="Cars"
+            android:textOn="Cars"
+            android:textAllCaps="false"
+            android:textColor="@color/darkBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"/>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:buttonTint="@color/yellow"
+            android:text="Turn on notifications for these categories."
+            android:textColor="@color/grey"
+            android:textSize="15sp"
+            android:layout_gravity="center" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="bottom"
+            android:layout_marginBottom="50dp">
+            <Button
+                android:id="@+id/next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="100dp"
+                android:background="@drawable/deactivated_button"
+                android:text="Maybe Later"
+                android:textColor="@color/grey"
+                android:textAllCaps="false"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="100dp"
+                android:background="@drawable/white_button"
+                android:text="Back"
+                android:textAllCaps="false"
+                android:textColor="#827F7F"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
