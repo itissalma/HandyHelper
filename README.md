@@ -12,7 +12,7 @@ Handy Helper is an app that combines all individuals who can offer services like
 ## Service Provider
 <p float="left" align="center">
   <img src="demo/ServiceProvider1.png" width="300" /> 
-  <img src="demo/ServiceProvider1.png" width="300" />
+  <img src="demo/ServiceProvider2.png" width="300" />
 </p>
 
 ## Features
